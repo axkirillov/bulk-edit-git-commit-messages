@@ -2,10 +2,8 @@
 
 branch=$(git branch --show-current)
 
-echo $branch
-
 ticket=$(echo "${branch}" | awk -F "-" '{print $1 "-" $2}')
 
-echo $ticket
+sha=$(git log --oneline | fzf | awk '{print $1}')
 
-git filter-branch -f --msg-filter "echo \"[$ticket] \$(cat)\"" HEAD~1..HEAD
+git filter-branch -f --msg-filter "echo \"[$ticket] \$(cat)\"" "$sha"..HEAD
