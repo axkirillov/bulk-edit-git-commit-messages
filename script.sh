@@ -1,3 +1,11 @@
 #!/bin/bash
 
-git filter-branch --msg-filter 'echo "[JQ-123] $(cat)"' HEAD~1..HEAD
+branch=$(git branch --show-current)
+
+echo $branch
+
+ticket=$(echo "${branch}" | awk -F "-" '{print $1 "-" $2}')
+
+echo $ticket
+
+git filter-branch --msg-filter 'echo "{$ticket} $(cat)"' HEAD~1..HEAD
